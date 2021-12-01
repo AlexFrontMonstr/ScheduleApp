@@ -10,7 +10,6 @@
 		105095392757E241007BCC71 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 105095382757E241007BCC71 /* AppDelegate.swift */; };
 		1050953B2757E241007BCC71 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1050953A2757E241007BCC71 /* SceneDelegate.swift */; };
 		1050953D2757E241007BCC71 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1050953C2757E241007BCC71 /* ViewController.swift */; };
-		105095402757E241007BCC71 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1050953E2757E241007BCC71 /* Main.storyboard */; };
 		105095422757E242007BCC71 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 105095412757E242007BCC71 /* Assets.xcassets */; };
 		105095452757E242007BCC71 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 105095432757E242007BCC71 /* LaunchScreen.storyboard */; };
 		105095502757E242007BCC71 /* ScheduleAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1050954F2757E242007BCC71 /* ScheduleAppTests.swift */; };
@@ -39,7 +38,6 @@
 		105095382757E241007BCC71 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1050953A2757E241007BCC71 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		1050953C2757E241007BCC71 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		1050953F2757E241007BCC71 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		105095412757E242007BCC71 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		105095442757E242007BCC71 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		105095462757E242007BCC71 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -99,13 +97,9 @@
 		105095372757E241007BCC71 /* ScheduleApp */ = {
 			isa = PBXGroup;
 			children = (
-				105095382757E241007BCC71 /* AppDelegate.swift */,
-				1050953A2757E241007BCC71 /* SceneDelegate.swift */,
-				1050953C2757E241007BCC71 /* ViewController.swift */,
-				1050953E2757E241007BCC71 /* Main.storyboard */,
-				105095412757E242007BCC71 /* Assets.xcassets */,
-				105095432757E242007BCC71 /* LaunchScreen.storyboard */,
-				105095462757E242007BCC71 /* Info.plist */,
+				1050956B2757E7D1007BCC71 /* Application */,
+				1050956A2757E7C2007BCC71 /* Controller */,
+				105095692757E4F5007BCC71 /* Sourses */,
 			);
 			path = ScheduleApp;
 			sourceTree = "<group>";
@@ -126,6 +120,33 @@
 				1050955C2757E243007BCC71 /* Info.plist */,
 			);
 			path = ScheduleAppUITests;
+			sourceTree = "<group>";
+		};
+		105095692757E4F5007BCC71 /* Sourses */ = {
+			isa = PBXGroup;
+			children = (
+				105095432757E242007BCC71 /* LaunchScreen.storyboard */,
+				105095462757E242007BCC71 /* Info.plist */,
+				105095412757E242007BCC71 /* Assets.xcassets */,
+			);
+			path = Sourses;
+			sourceTree = "<group>";
+		};
+		1050956A2757E7C2007BCC71 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				1050953C2757E241007BCC71 /* ViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		1050956B2757E7D1007BCC71 /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				105095382757E241007BCC71 /* AppDelegate.swift */,
+				1050953A2757E241007BCC71 /* SceneDelegate.swift */,
+			);
+			path = Application;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -233,7 +254,6 @@
 			files = (
 				105095452757E242007BCC71 /* LaunchScreen.storyboard in Resources */,
 				105095422757E242007BCC71 /* Assets.xcassets in Resources */,
-				105095402757E241007BCC71 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -296,14 +316,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		1050953E2757E241007BCC71 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				1050953F2757E241007BCC71 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		105095432757E242007BCC71 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -439,6 +451,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 8GGDVJ5Z5B;
 				INFOPLIST_FILE = ScheduleApp/Info.plist;
+				"INFOPLIST_FILE[sdk=*]" = ScheduleApp/Sourses/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -457,7 +470,6 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 8GGDVJ5Z5B;
-				INFOPLIST_FILE = ScheduleApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
