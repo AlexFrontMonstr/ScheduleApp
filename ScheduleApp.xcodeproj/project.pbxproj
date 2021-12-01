@@ -9,11 +9,14 @@
 /* Begin PBXBuildFile section */
 		105095392757E241007BCC71 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 105095382757E241007BCC71 /* AppDelegate.swift */; };
 		1050953B2757E241007BCC71 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1050953A2757E241007BCC71 /* SceneDelegate.swift */; };
-		1050953D2757E241007BCC71 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1050953C2757E241007BCC71 /* ViewController.swift */; };
+		1050953D2757E241007BCC71 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1050953C2757E241007BCC71 /* MainTabBarController.swift */; };
 		105095422757E242007BCC71 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 105095412757E242007BCC71 /* Assets.xcassets */; };
 		105095452757E242007BCC71 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 105095432757E242007BCC71 /* LaunchScreen.storyboard */; };
 		105095502757E242007BCC71 /* ScheduleAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1050954F2757E242007BCC71 /* ScheduleAppTests.swift */; };
 		1050955B2757E242007BCC71 /* ScheduleAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1050955A2757E242007BCC71 /* ScheduleAppUITests.swift */; };
+		1050956D2757F967007BCC71 /* ScheduleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1050956C2757F967007BCC71 /* ScheduleViewController.swift */; };
+		1050956F2757F9C3007BCC71 /* TasksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1050956E2757F9C3007BCC71 /* TasksViewController.swift */; };
+		105095712757FA43007BCC71 /* ContactsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 105095702757FA43007BCC71 /* ContactsViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,7 +40,7 @@
 		105095352757E241007BCC71 /* ScheduleApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ScheduleApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		105095382757E241007BCC71 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1050953A2757E241007BCC71 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		1050953C2757E241007BCC71 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		1050953C2757E241007BCC71 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
 		105095412757E242007BCC71 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		105095442757E242007BCC71 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		105095462757E242007BCC71 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -47,6 +50,9 @@
 		105095562757E242007BCC71 /* ScheduleAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ScheduleAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1050955A2757E242007BCC71 /* ScheduleAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleAppUITests.swift; sourceTree = "<group>"; };
 		1050955C2757E243007BCC71 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1050956C2757F967007BCC71 /* ScheduleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleViewController.swift; sourceTree = "<group>"; };
+		1050956E2757F9C3007BCC71 /* TasksViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksViewController.swift; sourceTree = "<group>"; };
+		105095702757FA43007BCC71 /* ContactsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -135,7 +141,10 @@
 		1050956A2757E7C2007BCC71 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				1050953C2757E241007BCC71 /* ViewController.swift */,
+				1050953C2757E241007BCC71 /* MainTabBarController.swift */,
+				1050956C2757F967007BCC71 /* ScheduleViewController.swift */,
+				1050956E2757F9C3007BCC71 /* TasksViewController.swift */,
+				105095702757FA43007BCC71 /* ContactsViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -278,9 +287,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1050953D2757E241007BCC71 /* ViewController.swift in Sources */,
+				1050953D2757E241007BCC71 /* MainTabBarController.swift in Sources */,
+				1050956D2757F967007BCC71 /* ScheduleViewController.swift in Sources */,
+				1050956F2757F9C3007BCC71 /* TasksViewController.swift in Sources */,
 				105095392757E241007BCC71 /* AppDelegate.swift in Sources */,
 				1050953B2757E241007BCC71 /* SceneDelegate.swift in Sources */,
+				105095712757FA43007BCC71 /* ContactsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
