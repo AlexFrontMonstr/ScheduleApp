@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  TasksViewController.swift
 //  ScheduleApp
 //
 //  Created by Александр Полетаев on 01.12.2021.
@@ -8,8 +8,8 @@
 import UIKit
 import FSCalendar
 
-class ScheduleViewController: UIViewController {
-    
+class TasksViewController: UIViewController {
+      
     var calendarHeightConstrait: NSLayoutConstraint!
     
     private var calendar: FSCalendar = {
@@ -19,6 +19,7 @@ class ScheduleViewController: UIViewController {
         
     }()
     //MARK: Create the button open calendar
+    
     let showHiddenButton: UIButton = {
         let button = UIButton()
         button.setTitle("Open calendar", for: .normal)
@@ -28,23 +29,44 @@ class ScheduleViewController: UIViewController {
         return button
     }()
     
+    let tableView: UITableView = {
+        let tableView = UITableView()
+        tableView.bounces = false
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        return tableView
+    }()
+    
+    let isTasksCell = "isTasksCell"
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view.backgroundColor = .white
         
-        title = "Scheduale"
+        title = "Tasks"
         
         setConstraints()
+        swipeAction()
         
         calendar.dataSource = self
         calendar.delegate = self
         
         calendar.scope = .week
         
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.register(TasksTableViewCell.self, forCellReuseIdentifier: isTasksCell)
+        
         showHiddenButton.addTarget(self, action: #selector (showHiddenButtonTaped), for: .touchUpInside)
         
-        swipeAction()
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonTaped))
+    }
+    
+    
+    @objc func addButtonTaped(){
+        let tasksOption = TasksOptionTableView()
+        navigationController?.pushViewController(tasksOption, animated: true)
+            
     }
     
     @objc func showHiddenButtonTaped() {
@@ -86,9 +108,27 @@ class ScheduleViewController: UIViewController {
     }
 }
 
+//MARK:UITableViewDelegate, UITableViewDataSource
+
+extension  TasksViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 3
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: isTasksCell, for: indexPath) as! TasksTableViewCell
+        
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 70
+    }
+}
+
 //MARK: FSCalendarDataSource, FSCalendarDelegate
 
-extension ScheduleViewController: FSCalendarDataSource, FSCalendarDelegate{
+extension TasksViewController: FSCalendarDataSource, FSCalendarDelegate {
     
     func calendar(_ calendar: FSCalendar, boundingRectWillChange bounds: CGRect, animated: Bool) {
         calendarHeightConstrait.constant = bounds.height
@@ -102,7 +142,7 @@ extension ScheduleViewController: FSCalendarDataSource, FSCalendarDelegate{
 
 //MARK: SetConstraints
 
-extension ScheduleViewController {
+extension TasksViewController {
     
     func setConstraints(){
         
@@ -126,6 +166,15 @@ extension ScheduleViewController {
             showHiddenButton.widthAnchor.constraint(equalToConstant: 100),
             showHiddenButton.heightAnchor.constraint(equalToConstant: 20)
         ])
+        
+        view.addSubview(tableView)
+        NSLayoutConstraint.activate ([
+            tableView.topAnchor.constraint(equalTo: showHiddenButton.bottomAnchor, constant: 10),
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 15),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0)
+        ])
     }
 }
+
 
