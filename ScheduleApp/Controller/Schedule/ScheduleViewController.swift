@@ -10,7 +10,7 @@ import FSCalendar
 
 class ScheduleViewController: UIViewController {
     
-    var calendarHeightConstrait: NSLayoutConstraint!
+   private var calendarHeightConstrait: NSLayoutConstraint!
     
     private var calendar: FSCalendar = {
         let calendar = FSCalendar()
@@ -21,7 +21,7 @@ class ScheduleViewController: UIViewController {
     
     //MARK: Create the button open calendar
     
-    let showHideButton: UIButton = {
+   private let showHideButton: UIButton = {
         let button = UIButton()
         button.setTitle("Open calendar", for: .normal)
         button.setTitleColor(#colorLiteral(red: 0.05882352963, green: 0.180392161, blue: 0.2470588237, alpha: 1), for: .normal)
@@ -30,14 +30,14 @@ class ScheduleViewController: UIViewController {
         return button
     }()
     
-    let tableView: UITableView = {
+   private let tableView: UITableView = {
         let tableView = UITableView()
         tableView.bounces = false
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
     
-    let isScheduleCell = "isScheduleCell"
+   private let isScheduleCell = "isScheduleCell"
     
     
     override func viewDidLoad() {
@@ -62,16 +62,16 @@ class ScheduleViewController: UIViewController {
         tableView.dataSource = self
         tableView.register(ScheduleTableViewCell.self, forCellReuseIdentifier: isScheduleCell)
         
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonTaped))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonTapped))
     }
     
-    @objc func addButtonTaped(){
-        let scheduleOption = OptionsScheduleTableViewController()
+    @objc private func addButtonTapped(){
+        let scheduleOption = ScheduleOptionsTableViewController()
         navigationController?.pushViewController(scheduleOption, animated: true)
             
     }
     
-    @objc func showHiddenButtonTaped() {
+    @objc private func showHiddenButtonTaped() {
         
         if calendar.scope == .week{
             calendar.setScope(.month, animated: true)
@@ -84,7 +84,7 @@ class ScheduleViewController: UIViewController {
     
     //MARK:SwapeGestureRecognizer
     
-    func swipeAction(){
+  private func swipeAction(){
         
         let swipeUp = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipe))
         swipeUp.direction = .up
@@ -95,7 +95,7 @@ class ScheduleViewController: UIViewController {
         calendar.addGestureRecognizer(swipeDown)   
     }
     
-    @objc func handleSwipe(gesture:UISwipeGestureRecognizer) {
+    @objc private func handleSwipe(gesture:UISwipeGestureRecognizer) {
         
         switch gesture.direction {
         case .up:

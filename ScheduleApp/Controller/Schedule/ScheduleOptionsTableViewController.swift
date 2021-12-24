@@ -7,13 +7,15 @@
 
 import UIKit
 
-class OptionsScheduleTableViewController: UITableViewController{
+class ScheduleOptionsTableViewController: UITableViewController{
     
-    let isOptions = "isOptions"
-    let isOptionsHeader = "isOptionsHeader"
+    private let isOptions = "isOptions"
+    private let isOptionsHeader = "isOptionsHeader"
     let headerNamesArray = ["DATE AND TIME","CLIENT","SERVICE","COLOR","PERIOD"]
     let cellNameArray = [["Date ","Time"],["Client Name"],["Name","Type","Duration","Price"],[""],["Repeat every 7 days"]]
-  
+    
+    let scheduleModel = ScheduleModel()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -25,12 +27,18 @@ class OptionsScheduleTableViewController: UITableViewController{
         tableView.register(OptionsTableViewCell.self, forCellReuseIdentifier: isOptions)
         tableView.register(HeaderOptionsTableViewCell.self, forHeaderFooterViewReuseIdentifier: isOptionsHeader)
         
-        title = "Optional Schedule"
+        title = "Options Schedule"
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveButtonTapped))
         
     }
     
+    @objc private func saveButtonTapped(){
+        RealmManager.shared.saveScheduleModel(model: scheduleModel)
+    }
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
-        5
+        return  5
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -47,6 +55,7 @@ class OptionsScheduleTableViewController: UITableViewController{
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: isOptions, for: indexPath) as! OptionsTableViewCell
         cell.cellScheduleConfigure(nameArray: cellNameArray, indexPath: indexPath)
+        cell.switchRepeatDelegate = self
         return cell
     }
     
@@ -69,25 +78,38 @@ class OptionsScheduleTableViewController: UITableViewController{
         let cell = tableView.cellForRow(at: indexPath) as! OptionsTableViewCell
         
         switch indexPath {
-        case [0,0]: alertDate(label: cell.nameCellLabel) { (numberOfWeekday, date )
-            in
-            print(numberOfWeekday,date)
-        }
-        case [0,1]: alertTime(label: cell.nameCellLabel) { (date) in
-            print(date)
-        }
-        case [2,0]: alertForCellName(label: cell.nameCellLabel, name: "Service Name", placeholder: "Enter service name")
-        case [2,1]:  alertForCellName(label: cell.nameCellLabel, name: "DesignType", placeholder: "Enter design type")
-        case [2,2]: alertForCellName(label: cell.nameCellLabel, name: "Service duration", placeholder: "Enter service duration")
-        case [2,3]: alertForCellName(label: cell.nameCellLabel, name: "Service Price", placeholder: "Enter  service price")
-            
+        case [0,0]:
+            alertDate(label: cell.nameCellLabel) {(numberOfWeekday,date) in
+                self.scheduleModel.scheduleDate = date
+                self.scheduleModel.scheduleWeekday = numberOfWeekday
+            }
+        case [0,1]:
+            alertTime(label: cell.nameCellLabel) {(time) in
+                self.scheduleModel.scheduleTime = time
+            }
+        case [2,0]:
+            alertForCellName(label: cell.nameCellLabel, name: "Service Name", placeholder: "Enter service name") {text in
+                self.scheduleModel.scheduleName = text
+            }
+        case [2,1]:
+            alertForCellName(label: cell.nameCellLabel, name: "DesignType", placeholder: "Enter design type") {text in
+                self.scheduleModel.scheduleType = text
+            }
+        case [2,2]:
+            alertForCellName(label: cell.nameCellLabel, name: "Service duration", placeholder: "Enter service duration") {text in
+                self.scheduleModel.scheduleDuration = text
+            }
+        case [2,3]:
+            alertForCellName(label: cell.nameCellLabel, name: "Service Price", placeholder: "Enter  service price") {text in
+                self.scheduleModel.schedulePrice = text
+                
+            }
         case [1,0]:
             let clients = ClientsViewController()
             navigationController?.navigationBar.topItem?.title = "Options"
             navigationController?.pushViewController(clients, animated: true)
-            
         case [3,0]:
-            let colors = ScheduleColorViewController()
+            let colors = ScheduleColorsViewController()
             navigationController?.navigationBar.topItem?.title = "Options"
             navigationController?.pushViewController(colors, animated: true)
         default:
@@ -95,3 +117,9 @@ class OptionsScheduleTableViewController: UITableViewController{
         }
     }
 }
+    extension ScheduleOptionsTableViewController: SwitchRepeatProtocol{
+        func switchRepeat(value:Bool){
+            scheduleModel.scheduleRepeat = value
+        }
+    }
+

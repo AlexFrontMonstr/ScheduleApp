@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import RealmSwift
 
 class MainTabBarController: UITabBarController {
     
@@ -21,11 +22,10 @@ class MainTabBarController: UITabBarController {
         
         let scheduleViewController = createNavController(vc: ScheduleViewController(), itemName: "Schedule", itemImage: "calendar.badge.clock")
         let tasksViewController = createNavController(vc: TasksViewController(), itemName: "Tasks", itemImage: "text.badge.checkmark")
-        let contactsViewController = createNavController(vc: ContactsViewController(), itemName: "Contacts", itemImage: "rectangle.stack.person.crop")
+        let contactsViewController = createNavController(vc: ContactsTableViewController(), itemName: "Contacts", itemImage: "rectangle.stack.person.crop")
         
         viewControllers = [scheduleViewController,tasksViewController,contactsViewController]
     }
-    
     
     func createNavController (vc: UIViewController, itemName: String, itemImage: String )-> UINavigationController {
         

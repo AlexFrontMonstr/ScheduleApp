@@ -9,8 +9,8 @@ import UIKit
 import FSCalendar
 
 class TasksViewController: UIViewController {
-      
-    var calendarHeightConstrait: NSLayoutConstraint!
+    
+    private var calendarHeightConstrait: NSLayoutConstraint!
     
     private var calendar: FSCalendar = {
         let calendar = FSCalendar()
@@ -20,7 +20,7 @@ class TasksViewController: UIViewController {
     }()
     //MARK: Create the button open calendar
     
-    let showHiddenButton: UIButton = {
+    private let showHiddenButton: UIButton = {
         let button = UIButton()
         button.setTitle("Open calendar", for: .normal)
         button.setTitleColor(#colorLiteral(red: 0.05882352963, green: 0.180392161, blue: 0.2470588237, alpha: 1), for: .normal)
@@ -29,15 +29,15 @@ class TasksViewController: UIViewController {
         return button
     }()
     
-    let tableView: UITableView = {
+    private let tableView: UITableView = {
         let tableView = UITableView()
         tableView.bounces = false
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
     
-    let isTasksCell = "isTasksCell"
-        
+    private let isTasksCell = "isTasksCell"
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -63,13 +63,13 @@ class TasksViewController: UIViewController {
     }
     
     
-    @objc func addButtonTaped(){
-        let tasksOption = TasksOptionTableView()
+    @objc private func addButtonTaped(){
+        let tasksOption = TasksOptionsTableView()
         navigationController?.pushViewController(tasksOption, animated: true)
-            
+        
     }
     
-    @objc func showHiddenButtonTaped() {
+    @objc private func showHiddenButtonTaped() {
         
         if calendar.scope == .week{
             calendar.setScope(.month, animated: true)
@@ -83,7 +83,7 @@ class TasksViewController: UIViewController {
     
     //MARK:SwapeGestureRecognizer
     
-    func swipeAction(){
+    private func  swipeAction(){
         
         let swipeUp = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipe))
         swipeUp.direction = .up
@@ -95,7 +95,7 @@ class TasksViewController: UIViewController {
         
     }
     
-    @objc func handleSwipe(gesture:UISwipeGestureRecognizer) {
+    @objc private func handleSwipe(gesture:UISwipeGestureRecognizer) {
         
         switch gesture.direction {
         case .up:

@@ -7,7 +7,6 @@
 
 import UIKit
 
-
 class TasksTableViewCell: UITableViewCell {
     
     let noteName = UILabel(text: "Описание заметки", font: UIFont( name: "Avenir Next Demi Bold", size: 18), textAligment: .left)
