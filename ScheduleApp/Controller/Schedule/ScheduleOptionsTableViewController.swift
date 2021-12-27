@@ -11,10 +11,13 @@ class ScheduleOptionsTableViewController: UITableViewController{
     
     private let isOptions = "isOptions"
     private let isOptionsHeader = "isOptionsHeader"
+    
     let headerNamesArray = ["DATE AND TIME","CLIENT","SERVICE","COLOR","PERIOD"]
     let cellNameArray = [["Date ","Time"],["Client Name"],["Name","Type","Duration","Price"],[""],["Repeat every 7 days"]]
     
-    let scheduleModel = ScheduleModel()
+    var scheduleModel = ScheduleModel()
+    
+    var hexColorCell = "3DACF7"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,11 +33,15 @@ class ScheduleOptionsTableViewController: UITableViewController{
         title = "Options Schedule"
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveButtonTapped))
-        
     }
     
     @objc private func saveButtonTapped(){
+        scheduleModel.scheduleColor = hexColorCell
         RealmManager.shared.saveScheduleModel(model: scheduleModel)
+        scheduleModel = ScheduleModel()
+        alertSavedSuccess(title: "Success")
+        hexColorCell = "3DACF7"
+        tableView.reloadData()
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -55,6 +62,8 @@ class ScheduleOptionsTableViewController: UITableViewController{
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: isOptions, for: indexPath) as! OptionsTableViewCell
         cell.cellScheduleConfigure(nameArray: cellNameArray, indexPath: indexPath)
+        let color = UIColor().colorFromHex(hexColorCell)
+        cell.backgroundViewCell.backgroundColor = (indexPath.section == 3 ? color : .white)
         cell.switchRepeatDelegate = self
         return cell
     }
@@ -102,7 +111,6 @@ class ScheduleOptionsTableViewController: UITableViewController{
         case [2,3]:
             alertForCellName(label: cell.nameCellLabel, name: "Service Price", placeholder: "Enter  service price") {text in
                 self.scheduleModel.schedulePrice = text
-                
             }
         case [1,0]:
             let clients = ClientsViewController()
@@ -117,9 +125,10 @@ class ScheduleOptionsTableViewController: UITableViewController{
         }
     }
 }
-    extension ScheduleOptionsTableViewController: SwitchRepeatProtocol{
-        func switchRepeat(value:Bool){
-            scheduleModel.scheduleRepeat = value
-        }
+
+extension ScheduleOptionsTableViewController: SwitchRepeatProtocol{
+    func switchRepeat(value:Bool){
+        scheduleModel.scheduleRepeat = value
     }
+}
 

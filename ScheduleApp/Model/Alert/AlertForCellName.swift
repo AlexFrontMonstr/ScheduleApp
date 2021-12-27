@@ -15,7 +15,7 @@ extension UIViewController {
         let okey = UIAlertAction(title: "Ok", style: .default) { (action) in
             let tfAlert = alert.textFields?.first
             guard let text = tfAlert?.text else {return}
-            label.text = text
+            label.text = (text != "" ? text : label.text)
             completionHandler(text)
         }
         

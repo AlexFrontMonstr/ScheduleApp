@@ -10,23 +10,23 @@ import UIKit
 
 class ScheduleTableViewCell: UITableViewCell {
     
-    let serviceType = UILabel(text: "Маникюр", font: UIFont(name: "Avenir Next Demi Bold", size: 18), textAligment: .left)
+    let serviceType = UILabel(text: "", font: UIFont(name: "Avenir Next Demi Bold", size: 18), textAligment: .left)
     
-    let clientName = UILabel(text: "Лена Бомбарова", font: UIFont(name: "Avenir Next", size: 18), textAligment: .right)
+    let clientName = UILabel(text: "", font: UIFont(name: "Avenir Next", size: 18), textAligment: .right)
     
-    let serviceTime = UILabel (text: "15:00", font: UIFont(name: "Avenir Next Demi Bold", size: 18), textAligment: .left)
+    let serviceTime = UILabel (text: "", font: UIFont(name: "Avenir Next Demi Bold", size: 18), textAligment: .left)
     
     let typeOfDesign = UILabel(text: "Type:", font: UIFont(name: "Avenir Next", size: 14), textAligment: .right)
     
-    let designLabel = UILabel(text: "Гель лак", font: UIFont(name: "Avenir Next Demi Bold", size: 14), textAligment: .left)
+    let designLabel = UILabel(text: "", font: UIFont(name: "Avenir Next Demi Bold", size: 14), textAligment: .left)
     
     let serviceDuration = UILabel(text: "Duration:", font: UIFont(name: "Avenir Next", size: 14), textAligment: .right)
     
-    let durationLabel = UILabel(text: "1.5", font: UIFont(name: "Avenir Next Demi Bold", size: 14), textAligment: .left)
+    let durationLabel = UILabel(text: "", font: UIFont(name: "Avenir Next Demi Bold", size: 14), textAligment: .left)
     
     let servicePrice = UILabel(text: "Price:", font: UIFont(name: "Avenir Next", size: 14), textAligment: .right)
     
-    let priceLabel = UILabel(text: "1200", font: UIFont(name: "Avenir Next Demi Bold", size: 14), textAligment: .left)
+    let priceLabel = UILabel(text: "", font: UIFont(name: "Avenir Next Demi Bold", size: 14), textAligment: .left)
     
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -40,6 +40,20 @@ class ScheduleTableViewCell: UITableViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func configure(model:ScheduleModel){
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "HH:mm"
+        
+        serviceType.text = model.scheduleName
+        clientName.text = model.scheduleClient
+        serviceTime.text = dateFormatter.string(from: model.scheduleTime)
+        designLabel.text = model.scheduleType
+        durationLabel.text = model.scheduleDuration
+        priceLabel.text = model.schedulePrice
+        backgroundColor = UIColor().colorFromHex("\(model.scheduleColor)")
     }
     
     
