@@ -15,6 +15,9 @@ class ScheduleViewController: UIViewController {
     
     private var calendarHeightConstrait: NSLayoutConstraint!
     
+    let localRealm = try! Realm()
+    var scheduleArray: Results<ScheduleModel>!
+    
     private var calendar: FSCalendar = {
         let calendar = FSCalendar()
         calendar.translatesAutoresizingMaskIntoConstraints = false
@@ -39,10 +42,11 @@ class ScheduleViewController: UIViewController {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
-    
-    let localRealm = try! Realm()
-    var scheduleArray: Results<ScheduleModel>!
-    
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tableView.reloadData()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -72,7 +76,6 @@ class ScheduleViewController: UIViewController {
     @objc private func addButtonTapped(){
         let scheduleOption = ScheduleOptionsTableViewController()
         navigationController?.pushViewController(scheduleOption, animated: true)
-        
     }
     
     @objc private func showHiddenButtonTaped() {
@@ -140,10 +143,6 @@ extension  ScheduleViewController: UITableViewDelegate, UITableViewDataSource {
         scheduleArray.count
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 70
-    }
-    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: isScheduleCell, for: indexPath) as! ScheduleTableViewCell
         let model = scheduleArray[indexPath.row]
@@ -151,6 +150,20 @@ extension  ScheduleViewController: UITableViewDelegate, UITableViewDataSource {
         
         return cell
     }
+  
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 70
+    }
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        
+        let editingRow = scheduleArray[indexPath.row]
+        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { _, _, completionHandler in
+            RealmManager.shared.deleteScheduleModel(model: editingRow)
+            tableView.reloadData()
+        }
+        return UISwipeActionsConfiguration(actions: [deleteAction])
+    }  
 }
 
 //MARK: FSCalendarDataSource, FSCalendarDelegate

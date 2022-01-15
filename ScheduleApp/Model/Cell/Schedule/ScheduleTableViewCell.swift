@@ -49,7 +49,8 @@ class ScheduleTableViewCell: UITableViewCell {
         
         serviceType.text = model.scheduleName
         clientName.text = model.scheduleClient
-        serviceTime.text = dateFormatter.string(from: model.scheduleTime)
+        guard let time = model.scheduleTime else {return}
+        serviceTime.text = dateFormatter.string(from: time)
         designLabel.text = model.scheduleType
         durationLabel.text = model.scheduleDuration
         priceLabel.text = model.schedulePrice
@@ -59,7 +60,7 @@ class ScheduleTableViewCell: UITableViewCell {
     
     func setConstraits() {
         
-        let topStackView = UIStackView(arrangedSubviews: [serviceType,clientName], axis: .horizontal, spacing: 10, distribution: .fill)
+        let topStackView = UIStackView(arrangedSubviews: [serviceType,clientName], axis: .horizontal, spacing: 5, distribution: .fill)
         
         self.addSubview(topStackView)
         NSLayoutConstraint.activate ([
@@ -79,13 +80,13 @@ class ScheduleTableViewCell: UITableViewCell {
             
         ])
         
-        let bottomStackView = UIStackView(arrangedSubviews: [typeOfDesign,designLabel,serviceDuration,durationLabel,servicePrice,priceLabel], axis: .horizontal, spacing: 8, distribution: .fillProportionally)
+        let buttomStackView = UIStackView(arrangedSubviews: [typeOfDesign,designLabel,serviceDuration,durationLabel,servicePrice,priceLabel], axis: .horizontal, spacing: 5, distribution: .fillProportionally)
         
-        self.addSubview(bottomStackView)
+        self.addSubview(buttomStackView)
         NSLayoutConstraint.activate ([
-            bottomStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -10),
-            bottomStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -5),
-            bottomStackView.heightAnchor.constraint(equalToConstant: 25)
+            buttomStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -10),
+            buttomStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -5),
+            buttomStackView.heightAnchor.constraint(equalToConstant: 25)
             
         ])
     }

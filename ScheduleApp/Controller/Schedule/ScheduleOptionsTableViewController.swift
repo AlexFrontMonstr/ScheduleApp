@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import RealmSwift
 
 class ScheduleOptionsTableViewController: UITableViewController{
     
@@ -13,7 +14,7 @@ class ScheduleOptionsTableViewController: UITableViewController{
     private let isOptionsHeader = "isOptionsHeader"
     
     let headerNamesArray = ["DATE AND TIME","CLIENT","SERVICE","COLOR","PERIOD"]
-    let cellNameArray = [["Date ","Time"],["Client Name"],["Name","Type","Duration","Price"],[""],["Repeat every 7 days"]]
+    var cellNameArray = [["Date ","Time"],["Client Name"],["Name","Type","Duration","Price"],[""],["Repeat every 7 days"]]
     
     var scheduleModel = ScheduleModel()
     
@@ -32,16 +33,22 @@ class ScheduleOptionsTableViewController: UITableViewController{
         
         title = "Options Schedule"
         
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveButtonTapped))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveScheduleButtonTapped))
     }
     
-    @objc private func saveButtonTapped(){
-        scheduleModel.scheduleColor = hexColorCell
-        RealmManager.shared.saveScheduleModel(model: scheduleModel)
-        scheduleModel = ScheduleModel()
-        alertSavedSuccess(title: "Success")
-        hexColorCell = "3DACF7"
-        tableView.reloadData()
+    @objc private func saveScheduleButtonTapped(){
+        
+        if scheduleModel.scheduleDate == nil || scheduleModel.scheduleTime == nil || scheduleModel.scheduleName == "" {
+            let alert = alertSavedSuccess(title: "NOTE", message: "Required to fill: DATE,TIME,ClIENT")
+        } else {
+            scheduleModel.scheduleColor = hexColorCell
+            RealmManager.shared.saveScheduleModel(model: scheduleModel)
+            scheduleModel = ScheduleModel()
+            alertSavedSuccess(title: "Success", message: nil)
+            hexColorCell = "3DACF7"
+            cellNameArray[1][0] = "Client Name"
+            tableView.reloadData()
+        }
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -113,7 +120,7 @@ class ScheduleOptionsTableViewController: UITableViewController{
                 self.scheduleModel.schedulePrice = text
             }
         case [1,0]:
-            let clients = ClientsViewController()
+            let clients = ClientsTableViewController()
             navigationController?.navigationBar.topItem?.title = "Options"
             navigationController?.pushViewController(clients, animated: true)
         case [3,0]:

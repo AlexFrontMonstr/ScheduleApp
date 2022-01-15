@@ -11,7 +11,7 @@ class ContactsTableViewCell: UITableViewCell {
     
     let contactImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "ironman")
+        imageView.image = UIImage(systemName: "person.fill")
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -36,7 +36,7 @@ class ContactsTableViewCell: UITableViewCell {
     
     let nameLabel = UILabel(text: "Tony Stark", font: UIFont(name: "Avenir Next Demi", size: 20), textAligment: .natural)
     let phoneLabel = UILabel(text: "8 929 811 9999", font: UIFont(name: "Avenir Next Demi", size: 14), textAligment: .left)
-    let instaLabel = UILabel(text: "ironMan163", font: UIFont(name: "Avenir Next Demi", size: 14), textAligment:.natural)
+    let instaLabel = UILabel(text: "ironMan163", font: UIFont(name: "Avenir Next Demi", size: 14), textAligment:.left)
     
     override func layoutIfNeeded() {
         super.layoutSubviews()
@@ -56,6 +56,19 @@ class ContactsTableViewCell: UITableViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    func configure(model:ContactModel){
+        
+        nameLabel.text = model.contactName
+        phoneLabel.text = model.contactPhone
+        instaLabel.text = model.contactInsta
+        
+        if let data = model.contactPhoto, let photo = UIImage(data: data){
+            contactImageView.image = photo
+        }else{
+            contactImageView.image = UIImage(systemName: "person.fill")
+        }
+    }
 
     func setConstraits() {
         
@@ -74,13 +87,15 @@ class ContactsTableViewCell: UITableViewCell {
             nameLabel.heightAnchor.constraint(equalToConstant: 21)
         ])
         
-        let stackView = UIStackView(arrangedSubviews: [phoneImageView,phoneLabel,instaImageView,instaLabel], axis: .horizontal, spacing: 3, distribution:  .fillProportionally)
+        let stackView = UIStackView(arrangedSubviews: [phoneImageView,phoneLabel,instaImageView,instaLabel], axis: .horizontal, spacing: 0, distribution: .equalSpacing)
+        
         self.addSubview(stackView)
         NSLayoutConstraint.activate([
             stackView.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 10),
             stackView.leadingAnchor.constraint(equalTo: contactImageView.trailingAnchor, constant: 10),
             stackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
             stackView.heightAnchor.constraint(equalToConstant: 21)
+           
         ])
     }
 }

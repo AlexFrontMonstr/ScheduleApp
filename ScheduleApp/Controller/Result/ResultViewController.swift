@@ -7,8 +7,9 @@
 
 import UIKit
 import FSCalendar
+import RealmSwift
 
-class TasksViewController: UIViewController {
+class ResultViewController: UIViewController {
     
     private var calendarHeightConstrait: NSLayoutConstraint!
     
@@ -38,15 +39,24 @@ class TasksViewController: UIViewController {
     
     private let isTasksCell = "isTasksCell"
     
+    let localRealm = try! Realm()
+    var resultArray: Results<ResultModel>!
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tableView.reloadData()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view.backgroundColor = .white
         
-        title = "Tasks"
+        title = "Result"
         
         setConstraints()
         swipeAction()
+        setArray()
         
         calendar.dataSource = self
         calendar.delegate = self
@@ -55,7 +65,7 @@ class TasksViewController: UIViewController {
         
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.register(TasksTableViewCell.self, forCellReuseIdentifier: isTasksCell)
+        tableView.register(ResultTableViewCell.self, forCellReuseIdentifier: isTasksCell)
         
         showHiddenButton.addTarget(self, action: #selector (showHiddenButtonTaped), for: .touchUpInside)
         
@@ -64,8 +74,8 @@ class TasksViewController: UIViewController {
     
     
     @objc private func addButtonTaped(){
-        let tasksOption = TasksOptionsTableView()
-        navigationController?.pushViewController(tasksOption, animated: true)
+        let resultOption = ResultOptionsTableViewController()
+        navigationController?.pushViewController(resultOption, animated: true)
         
     }
     
@@ -77,13 +87,17 @@ class TasksViewController: UIViewController {
         }else {
             calendar.setScope(.week, animated: true)
             showHiddenButton.setTitle("Open calendar", for: .normal )
-            
         }
+    }
+    
+    func setArray() {
+    resultArray = localRealm.objects(ResultModel.self).sorted(byKeyPath: "resultDate")
+    tableView.reloadData()
     }
     
     //MARK:SwapeGestureRecognizer
     
-    private func  swipeAction(){
+    private func  swipeAction() {
         
         let swipeUp = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipe))
         swipeUp.direction = .up
@@ -100,24 +114,24 @@ class TasksViewController: UIViewController {
         switch gesture.direction {
         case .up:
             showHiddenButtonTaped()
-        case .up:
+        case .down:
             showHiddenButtonTaped()
         default:
             break
         }
     }
 }
-
 //MARK:UITableViewDelegate, UITableViewDataSource
 
-extension  TasksViewController: UITableViewDelegate, UITableViewDataSource {
+extension  ResultViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        return resultArray.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: isTasksCell, for: indexPath) as! TasksTableViewCell
-        
+        let cell = tableView.dequeueReusableCell(withIdentifier: isTasksCell, for: indexPath) as! ResultTableViewCell
+        let model = resultArray[indexPath.row]
+        cell.configure(model: model)
         return cell
     }
     
@@ -128,7 +142,7 @@ extension  TasksViewController: UITableViewDelegate, UITableViewDataSource {
 
 //MARK: FSCalendarDataSource, FSCalendarDelegate
 
-extension TasksViewController: FSCalendarDataSource, FSCalendarDelegate {
+extension ResultViewController: FSCalendarDataSource, FSCalendarDelegate {
     
     func calendar(_ calendar: FSCalendar, boundingRectWillChange bounds: CGRect, animated: Bool) {
         calendarHeightConstrait.constant = bounds.height
@@ -138,11 +152,21 @@ extension TasksViewController: FSCalendarDataSource, FSCalendarDelegate {
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
         print(date)
     }
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        
+        let editingRow = resultArray[indexPath.row]
+        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { _, _, completionHandler in
+            RealmManager.shared.deleteResultModel(model: editingRow)
+            tableView.reloadData()
+        }
+        return UISwipeActionsConfiguration(actions: [deleteAction])
+    }
 }
 
 //MARK: SetConstraints
 
-extension TasksViewController {
+extension ResultViewController {
     
     func setConstraints(){
         
