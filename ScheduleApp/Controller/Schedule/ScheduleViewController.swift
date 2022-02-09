@@ -122,7 +122,7 @@ class ScheduleViewController: UIViewController {
         
         let dataStart = date
         let dataEnd: Date = {
-            let component = DateComponents(day:1, second: -1)
+            _ = DateComponents(day:1, second: -1)
             return Calendar.current.date(byAdding: components, to: dataStart)!
         }()
         

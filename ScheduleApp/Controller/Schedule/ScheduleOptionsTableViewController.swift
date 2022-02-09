@@ -39,7 +39,7 @@ class ScheduleOptionsTableViewController: UITableViewController{
     @objc private func saveScheduleButtonTapped(){
         
         if scheduleModel.scheduleDate == nil || scheduleModel.scheduleTime == nil || scheduleModel.scheduleName == "" {
-            let alert = alertSavedSuccess(title: "NOTE", message: "Required to fill: DATE,TIME,ClIENT")
+            alertSavedSuccess(title: "NOTE", message: "Required to fill: DATE,TIME,ClIENT")
         } else {
             scheduleModel.scheduleColor = hexColorCell
             RealmManager.shared.saveScheduleModel(model: scheduleModel)
