@@ -1,7 +1,7 @@
 # ScheduleApp
 
 This is basic app for beauty masters in tableview way perfoming.
-There are a few view controllers. All UI made manually withoyt IB.
+There are a few view controllers. All UI made manually without IB.
 DB is Realm.
 ![Simulator Screen Shot - iPhone 12 - 2022-03-27 at 23 39 33](https://user-images.githubusercontent.com/51377501/160298039-012c1f23-2cee-4fd4-9f9c-c3d749d1b64f.png)
 ![Simulator Screen Shot - iPhone 12 - 2022-03-27 at 23 39 43](https://user-images.githubusercontent.com/51377501/160298446-2d71b4f1-99b4-4047-a111-53e025ef07c7.png)
